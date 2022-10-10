@@ -31,12 +31,22 @@ app.post('/nsfw', upload.single('image'), async (req, res) => {
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
     const image = await convert(req.file.buffer)
+    
     const predictions = await _model.classify(image)
     image.dispose()
     res.json(predictions)
   }
 })
-
+app.post('/testmodel',async (req, res) => {
+if(!req.body.uri)
+res.status(400).send('Missing image multipart/form-data');
+nsfwjs.load().then((model) => {
+  // Classify the image.
+  model.classify(req.body.uri).then((predictions) => {
+    res.json(predictions)
+  });
+});
+})
 const load_model = async () => {
   _model = await nsfw.load()
 }
