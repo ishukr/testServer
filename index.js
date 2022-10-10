@@ -24,7 +24,9 @@ const convert = async (img) => {
 
   return tf.tensor3d(values, [image.height, image.width, numChannels], 'int32')
 }
-
+app.get('/', (req, res) => {
+  res.status(200).json("DevzCorner Welcome's You")
+})
 app.post('/nsfw', upload.single('image'), async (req, res) => {
   if (!req.file) res.status(400).send('Missing image multipart/form-data')
   else {
