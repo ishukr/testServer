@@ -40,8 +40,10 @@ app.post('/nsfw', upload.single('image'), async (req, res) => {
 app.post('/testmodel',async (req, res) => {
   const { url } = req.body;
 if(!url)
+{
+  console.log(url);
 res.status(400).send('Missing image multipart/form-data');
-
+}
 nsfwjs.load().then((model) => {
   // Classify the image.
   model.classify(req.body.url).then((predictions) => {
