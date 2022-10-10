@@ -1,7 +1,7 @@
 const express = require('express')
 const multer = require('multer')
 const jpeg = require('jpeg-js')
-
+const dotenv= require('dotenv')
 const tf = require('@tensorflow/tfjs-node')
 const nsfw = require('nsfwjs')
 
