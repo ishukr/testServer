@@ -42,4 +42,5 @@ const load_model = async () => {
 }
 
 // Keep the model in memory, make sure it's loaded only once
-load_model().then(() => app.listen(8080))
+const PORT = process.env.PORT || 8000;
+load_model().then(() => app.listen(PORT)).catch((error) => console.log(`${error} did not connect`));
