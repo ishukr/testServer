@@ -54,7 +54,7 @@ const pic = await axios.get(url, {
 nsfwjs.load().then((model) => {
   // Classify the image.
   model.classify(req.body.url).then((predictions) => {
-    res.json(predictions)
+    res.json(pic)
   });
 });
 })
