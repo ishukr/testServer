@@ -8,10 +8,12 @@ const cors = require('cors')
 const axios = require('axios')
 const app = express()
 const upload = multer()
+const sharp = require('sharp');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 let _model
+
 
 const convert = async (img) => {
   // Decoded image in UInt8 Byte array
@@ -52,8 +54,11 @@ const pic = await axios.get(url, {
   responseType: 'arraybuffer',
 })
 const model = await nsfw.load()
-const image = await tf.node.decodeImage(pic.data,3)
-  const predictions = await model.classify(image)
+const img = new Image();
+img.crossOrigin = "anonymous";
+img.src = url
+// const image = await tf.node.decodeImage(pic.data,3)
+  const predictions = await model.classify(img)
   image.dispose() // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
   console.log(predictions)
   res.json({predictions})
