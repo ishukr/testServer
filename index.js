@@ -55,7 +55,7 @@ let URI_PNG;
   .png()
 .toBuffer()
 .then( data => { 
-  URI_PNG=data;
+  =data;
 
 })
 .catch( err => { 
@@ -66,6 +66,7 @@ return res.status(200).json(err)
   const model = await nsfw.load(); // To load a local model, nsfw.load('file://./path/to/model/')
   // Image must be in tf.tensor3d format
   // you can convert image to tf.tensor3d with tf.node.decodeImage(Uint8Array,channels)
+console.log(URI_PNG)
   const image = await tf.node.decodeImage(URI_PNG, 3);
   const predictions = await model.classify(image);
   image.dispose(); // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
