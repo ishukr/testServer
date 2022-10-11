@@ -51,12 +51,18 @@ res.status(400).send('Missing image url');
 const pic = await axios.get(url, {
   responseType: 'arraybuffer',
 })
-nsfwjs.load().then((model) => {
-  // Classify the image.
-  model.classify(req.body.url).then((predictions) => {
-    res.json(pic)
-  });
-});
+const model = await nsfw.load()
+const image = await tf.node.decodeImage(pic.data,3)
+  const predictions = await model.classify(image)
+  image.dispose() // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
+  console.log(predictions)
+  res.json(predictions)
+// nsfwjs.load().then((model) => {
+//   // Classify the image.
+//   model.classify(req.body.url).then((predictions) => {
+//     res.json(pic)
+//   });
+// });
 })
 const load_model = async () => {
   _model = await nsfw.load()
