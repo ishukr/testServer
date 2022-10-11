@@ -44,18 +44,23 @@ app.post("/nsfw", upload.single("image"), async (req, res) => {
 app.post("/testmodel", async (req, res) => {
   const { url } = req.body;
 let URI_PNG;
+const model = await nsfw.load();
   if (!url) {
     res.status(400).send("Missing image url");
   }
 
-  const pic = await axios.get(url, {
+  const response = await axios.get(url, {
     responseType: "arraybuffer",
-  });
-  sharp(pic.data)
+});
+  sharp(response.data)
   .png()
 .toBuffer()
 .then( data => { 
-  URI_PNG =data;
+  // URI_PNG =data;
+  const image = await tf.node.decodeImage(data, 3);
+  const predictions = await model.classify(image);
+  image.dispose(); // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
+  return res.status(200).json(predictions)
 
 })
 .catch( err => { 
@@ -63,14 +68,11 @@ console.log(err)
 return res.status(200).json(err)
 
 });
-  const model = await nsfw.load(); // To load a local model, nsfw.load('file://./path/to/model/')
+   // To load a local model, nsfw.load('file://./path/to/model/')
   // Image must be in tf.tensor3d format
   // you can convert image to tf.tensor3d with tf.node.decodeImage(Uint8Array,channels)
-console.log(URI_PNG)
-  const image = await tf.node.decodeImage(URI_PNG, 3);
-  const predictions = await model.classify(image);
-  image.dispose(); // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
-  return res.status(200).json(predictions)
+// console.log(URI_PNG)
+  
 
   // res.json(predictions);
 });
