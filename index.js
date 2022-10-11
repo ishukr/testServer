@@ -42,7 +42,7 @@ app.post('/nsfw', upload.single('image'), async (req, res) => {
 })
 app.post('/testmodel',async(req, res) => {
   const { url } = req.body;
-  res.status(200).json({url});
+  
 if(!url)
 {
 
