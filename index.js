@@ -4,6 +4,7 @@ const jpeg = require('jpeg-js')
 const dotenv= require('dotenv')
 const tf = require('@tensorflow/tfjs-node')
 const nsfw = require('nsfwjs')
+const cors = require('cors')
 
 const app = express()
 const upload = multer()
