@@ -54,9 +54,9 @@ const pic = await axios.get(url, {
   responseType: 'arraybuffer',
 })
 const model = await nsfw.load()
-const img = new Image();
-img.crossOrigin = "anonymous";
-img.src = url
+// const img = new Image();
+// img.crossOrigin = "anonymous";
+// img.src = url
 // const image = await tf.node.decodeImage(pic.data,3)
   const predictions = await model.classify(url)
   image.dispose() // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
