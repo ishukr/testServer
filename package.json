@@ -15,6 +15,7 @@
     "multer": "^1.4.5-lts.1",
     "nsfwjs": "^2.4.2",
     "@tensorflow/tfjs-node": "^3.21.1",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "cors": "^2.8.5"
   }
 }

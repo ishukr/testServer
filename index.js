@@ -7,7 +7,8 @@ const nsfw = require('nsfwjs')
 
 const app = express()
 const upload = multer()
-
+app.use(cors());
+app.use(express.json());
 let _model
 
 const convert = async (img) => {
