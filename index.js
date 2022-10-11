@@ -55,7 +55,7 @@ let URI_PNG;
   .png()
 .toBuffer()
 .then( data => { 
-  =data;
+  URI_PNG =data;
 
 })
 .catch( err => { 
