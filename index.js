@@ -5,7 +5,7 @@ const dotenv= require('dotenv')
 const tf = require('@tensorflow/tfjs-node')
 const nsfw = require('nsfwjs')
 const cors = require('cors')
-
+const axios = require('axios')
 const app = express()
 const upload = multer()
 app.use(cors());
@@ -40,20 +40,23 @@ app.post('/nsfw', upload.single('image'), async (req, res) => {
     res.json(predictions)
   }
 })
-app.post('/testmodel',(req, res) => {
+app.post('/testmodel',async(req, res) => {
   const { url } = req.body;
   res.status(200).json({url});
-// if(!url)
-// {
-//   console.log(url);
-// res.status(400).send('Missing image multipart/form-data');
-// }
-// nsfwjs.load().then((model) => {
-//   // Classify the image.
-//   model.classify(req.body.url).then((predictions) => {
-//     res.json(predictions)
-//   });
-// });
+if(!url)
+{
+
+res.status(400).send('Missing image url');
+}
+const pic = await axios.get(url, {
+  responseType: 'arraybuffer',
+})
+nsfwjs.load().then((model) => {
+  // Classify the image.
+  model.classify(req.body.url).then((predictions) => {
+    res.json(predictions)
+  });
+});
 })
 const load_model = async () => {
   _model = await nsfw.load()
