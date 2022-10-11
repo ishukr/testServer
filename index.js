@@ -56,7 +56,7 @@ const image = await tf.node.decodeImage(pic.data,3)
   const predictions = await model.classify(image)
   image.dispose() // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
   console.log(predictions)
-  res.json(predictions)
+  res.json({predictions})
 // nsfwjs.load().then((model) => {
 //   // Classify the image.
 //   model.classify(req.body.url).then((predictions) => {
