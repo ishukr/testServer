@@ -55,8 +55,9 @@ const model = await nsfw.load();
   sharp(response.data)
   .png()
 .toBuffer()
-.then( data => { 
+.then( async data => { 
   // URI_PNG =data;
+  
   const image = await tf.node.decodeImage(data, 3);
   const predictions = await model.classify(image);
   image.dispose(); // Tensor memory must be managed explicitly (it is not sufficient to let a tf.Tensor go out of scope for its memory to be released).
