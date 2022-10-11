@@ -9,6 +9,7 @@ const app = express()
 const upload = multer()
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded());
 let _model
 
 const convert = async (img) => {
@@ -38,7 +39,7 @@ app.post('/nsfw', upload.single('image'), async (req, res) => {
     res.json(predictions)
   }
 })
-app.post('/testmodel',async (req, res) => {
+app.post('/testmodel',(req, res) => {
   const { url } = req.body;
   res.status(200).json({url});
 // if(!url)
