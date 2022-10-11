@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 let _model;
-const model = await nsfw.load(); // To load a local model, nsfw.load('file://./path/to/model/')
+
 const convert = async (img) => {
   // Decoded image in UInt8 Byte array
   const image = await jpeg.decode(img, true);
@@ -43,7 +43,7 @@ app.post("/nsfw", upload.single("image"), async (req, res) => {
 });
 app.post("/testmodel", async (req, res) => {
   const { url } = req.body;
-
+  const model = await nsfw.load(); // To load a local model, nsfw.load('file://./path/to/model/')
   if (!url) {
     res.status(400).send("Missing image url");
   }
@@ -51,7 +51,7 @@ app.post("/testmodel", async (req, res) => {
   const pic = await axios.get(url, {
     responseType: "arraybuffer",
   });
-  let PIC_PNG;
+
   sharp(pic.data)
 .png()
 .toBuffer().then( data => { 
